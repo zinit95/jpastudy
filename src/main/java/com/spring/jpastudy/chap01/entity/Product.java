@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 // => 전에는 디비를 만들고 entity 를 만들었는데 !!! 이번에는 반대로 !!!
 
 @Getter
-@ToString
+@ToString (exclude = "nickName") // 닉네임 제거 한다
 @EqualsAndHashCode(of = "id") //필드 명을 쓴다
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +26,14 @@ public class Product {
     @Column(name="prod_id") // 디비에 있는 컬럼명 변경
     private Long id; //PK
 
+    @Setter //테스트땜에 만듬
     @Column(name="prod_nm", length = 30, nullable = false)
     private String name; //상품명
 
     @Column(name="price") // 디비에 있는 컬럼명 변경
     private int price; //상품 가격
 
+    @Setter //테스트땜에 만듬
     @Column(nullable = false) //NOY NULL 임
     @Enumerated(EnumType.STRING) // 왱만하믄 string 으로 바꿔 써라
     private Category category;
@@ -49,6 +51,18 @@ public class Product {
 
     public enum Category {
         FOOD, FASHION, ELECTRONIC
+    }
+
+
+    // 컬럼 기본값 설정
+    @PrePersist
+    public void prePersist() {
+        if (this.price == 0) {
+            this.price = 10000;
+        }
+        if (this.category == null) {
+            this.category = Category.FOOD;
+        }
     }
 
 }
