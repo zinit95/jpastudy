@@ -57,6 +57,9 @@ class ProductRepositoryTest {
     }
 
 
+    // =============================================================================================
+
+
     /*
      //@Transactional, @Rollback -- 맨 위에 이거 넣으면 안됨, @SpringBootTest 이것만 넣어야 됨
     // 실제로 디비에 저장이 되는 코드
@@ -78,6 +81,8 @@ class ProductRepositoryTest {
     */
 
 
+    // =============================================================================================
+
 
     // 새로운 데이터를 넣으면 기존 데이터 사라짐 왜 ? 드롭을 하니깐 ,
     //만역 기존 데이터도 유지 하고 싶으면 application.yml 에 가서 ddl-auto: create 를 update 로 변경하면 된다
@@ -98,6 +103,9 @@ class ProductRepositoryTest {
     }
 
 
+    // =============================================================================================
+
+
     @Test
     @DisplayName("1번 상품을 삭제한다")
     void deleteTest() {
@@ -111,6 +119,8 @@ class ProductRepositoryTest {
         assertNull(foundProduct);
     }
 
+
+    // =============================================================================================
 
 
     @Test
@@ -126,6 +136,8 @@ class ProductRepositoryTest {
         System.out.println("\n\n\nfoundProduct = " + foundProduct + "\n\n\n\n");
     }
 
+
+    // =============================================================================================
 
 
     @Test
@@ -145,6 +157,9 @@ class ProductRepositoryTest {
 
         assertEquals(4, productList.size());
     }
+
+
+    // =============================================================================================
 
 
     @Test
@@ -170,6 +185,12 @@ class ProductRepositoryTest {
         assertEquals(newName, saved.getName()); //save 된 이름이 new name 일 것이다.
         //then
     }
+
+
+    // =============================================================================================
+
+
+
 
 
 
