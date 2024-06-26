@@ -22,4 +22,5 @@ public interface StudentPageRepository extends JpaRepository<Student, String> {
 
 
 
+
 }
