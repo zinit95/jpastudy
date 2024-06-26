@@ -34,8 +34,18 @@ public class Department {
            단순히 읽기전용 (조회전용)으로만 사용하는 것이다.
         - mappedBy 에는 상대방 엔터티에 @ManyToOne 에 대응되는 필드명을 꼭 적어야 함
      */
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY) //(mappedBy = "department") 를 적어야 서로 양방향으로 된다, 부서가 1, 사원이 다 1 : 다
+    @OneToMany(mappedBy = "department", orphanRemoval = true, cascade = CascadeType.ALL) //(mappedBy = "department") 를 적어야 서로 양방향으로 된다, 부서가 1, 사원이 다 1 : 다
     private List<Employee> employees = new ArrayList<>(); //null 포인트 인셉션 방지를 위해 새로운 배열을 만든다
 
+    public void removeEmployee(Employee employee) {
+        this.employees.remove(employee);
+        employee.setDepartment(null);
+    }
+
+
+    public void addEmployee(Employee employee) {
+        this.employees.add(employee);
+        employee.setDepartment(this);
+    }
 
 }
