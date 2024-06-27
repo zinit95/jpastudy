@@ -47,6 +47,8 @@ public class Department {
     //@OneToMany(mappedBy = "department", orphanRemoval = true, cascade = CascadeType.ALL)
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, orphanRemoval = true,
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+
+    @Builder.Default
     private List<Employee> employees = new ArrayList<>(); //null 포인트 인셉션 방지를 위해 새로운 배열을 만든다
 
     public void removeEmployee(Employee employee) {
