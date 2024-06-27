@@ -45,7 +45,7 @@ public class Department {
     // 만약 ALL 을 사용하지 않고 REMOVE 만? 사용하고 싶다면 cascade = CascadeType.ALL -> 에서
     //cascade = {CascadeType.PERSIST, CascadeType.REMOVE} 이렇게 중괄호 안에 넣어서 사용하면 된다
     //@OneToMany(mappedBy = "department", orphanRemoval = true, cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "department", orphanRemoval = true,
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, orphanRemoval = true,
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Employee> employees = new ArrayList<>(); //null 포인트 인셉션 방지를 위해 새로운 배열을 만든다
 
