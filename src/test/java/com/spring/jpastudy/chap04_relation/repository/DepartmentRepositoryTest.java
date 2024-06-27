@@ -115,25 +115,47 @@ class DepartmentRepositoryTest {
         //then
     }
 
-
     @Test
     @DisplayName("양방향관계에서 리스트에 데이터를 추가하면 DB에도 INSERT된다")
     void cascadePersistTest() {
         //given
-
         // 2번 부서 조회
         Department department = departmentRepository.findById(2L).orElseThrow();
-
         // 새로운 사원 생성
         Employee employee = Employee.builder()
                 .name("뽀로로")
                 .build();
-
         //when
         department.addEmployee(employee);
-
         //then
     }
+    
+    
+    @Test
+    @DisplayName("부서가 사라지면 해당 사원들도 함께 사라진다 ")
+    void cascadeRemoveTest() {
+        //given
+        Department department = departmentRepository.findById(2L).orElseThrow();
+        //when
+        departmentRepository.delete(department);
+        //then
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
