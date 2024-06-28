@@ -8,6 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -109,5 +112,33 @@ class QueryDslSortTest {
         assertTrue(totalCount == 5);
     }
 
+    @Test
+    @DisplayName("spring 의 Page 인터페이스를 통한 페이징 처리")
+    void pagingWithJpaTest() {
+        //given
+        Pageable pageInfo = PageRequest.of(0,2);
+        //when
+        Page<Idol> pagedIdols = idolRepository.findAllByPaging(pageInfo);
+        //then
+        assertNotNull(pagedIdols);
+        assertEquals(2, pagedIdols.getSize());
+
+        System.out.println("\n\n\n");
+        pagedIdols.getContent().forEach(System.out::println);
+        System.out.println("\n\n\n");
+    }
+    
+    
+    @Test
+    @DisplayName("아이돌 이름 기준으로 오름차순으로 정렬하여 조회하세요 ")
+    void () {
+        //given
+        
+        //when
+        
+        //then
+    }
+    
+    
 
 }
