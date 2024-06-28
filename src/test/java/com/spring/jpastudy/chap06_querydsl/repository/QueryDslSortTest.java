@@ -127,18 +127,133 @@ class QueryDslSortTest {
         pagedIdols.getContent().forEach(System.out::println);
         System.out.println("\n\n\n");
     }
-    
-    
+
+
+    //=======================================================================
+
+    @Test
+    @DisplayName("이름 오름차순 정렬 조회")
+    void testSortByNameAsc() {
+        // given
+
+        // when
+        List<Idol> sortedIdols = factory
+                .selectFrom(idol)
+                .orderBy(idol.idolName.asc())
+                .fetch();
+
+        // then
+        assertFalse(sortedIdols.isEmpty());
+
+        System.out.println("\n\n\n");
+        sortedIdols.forEach(System.out::println);
+        System.out.println("\n\n\n");
+
+        // 추가 검증 예시: 첫 번째 아이돌이 이름순으로 올바르게 정렬되었는지 확인
+        assertEquals("가을", sortedIdols.get(0).getIdolName());
+    }
+
+    @Test
+    @DisplayName("나이 내림차순 정렬 및 페이징 처리 조회")
+    void testSortByAgeDescAndPaging() {
+        // given
+        int pageNumber = 0; // 첫 번째 페이지
+        int pageSize = 3; // 페이지당 데이터 수
+
+        // when
+        List<Idol> pagedIdols = factory
+                .selectFrom(idol)
+                .orderBy(idol.age.desc())
+                .offset(pageNumber * pageSize)
+                .limit(pageSize)
+                .fetch();
+
+        // then
+        assertNotNull(pagedIdols);
+        assertEquals(pageSize, pagedIdols.size());
+
+        System.out.println("\n\n\n");
+        pagedIdols.forEach(System.out::println);
+        System.out.println("\n\n\n");
+
+        // 추가 검증 예시: 첫 번째 페이지의 첫 번째 아이돌이 나이가 가장 많은지 확인
+        assertEquals("사쿠라", pagedIdols.get(0).getIdolName());
+        assertEquals(26, pagedIdols.get(0).getAge());
+    }
+
+    @Test
+    @DisplayName("특정 그룹의 아이돌을 이름 기준으로 오름차순 정렬 및 페이징 처리 조회")
+    void testSortByNameAscAndPagingForGroup() {
+        // given
+        String groupName = "아이브";
+        int pageNumber = 0; // 첫 번째 페이지
+        int pageSize = 2; // 페이지당 데이터 수
+
+        // when
+        List<Idol> pagedIdols = factory
+                .selectFrom(idol)
+                .where(idol.group.groupName.eq(groupName))
+                .orderBy(idol.idolName.asc())
+                .offset(pageNumber * pageSize)
+                .limit(pageSize)
+                .fetch();
+
+        // then
+        assertNotNull(pagedIdols);
+        assertEquals(pageSize, pagedIdols.size());
+
+        System.out.println("\n\n\n");
+        pagedIdols.forEach(System.out::println);
+        System.out.println("\n\n\n");
+
+        // 추가 검증 예시: 첫 번째 페이지의 첫 번째 아이돌이 이름순으로 올바르게 정렬되었는지 확인
+        assertEquals("가을", pagedIdols.get(0).getIdolName());
+    }
+
+
+
+
+    // 내가 한 거
+    /*
     @Test
     @DisplayName("아이돌 이름 기준으로 오름차순으로 정렬하여 조회하세요 ")
-    void () {
+    void idolTest() {
         //given
-        
+
         //when
-        
+        List<Idol> idols = factory
+                .selectFrom(idol)
+                .orderBy(idol.idolName.asc())
+                .fetch();
         //then
+        System.out.println("idols = " + idols);
+        System.out.println("\n\n=========== fetch =============");
+        idols.forEach(System.out::println);
+
     }
-    
+
+    //"아이브" 그룹의 아이돌을 이름 기준으로 오름차순 정렬하고,
+    // 페이지당 2명씩 페이징 처리하여 첫 번째 페이지의 아이돌을 조회하세요.
+    @Test
+    @DisplayName("아이브 그룹의 아이돌을 이름 기준으로 오름차순 정렬, 이지당 2명씩 페이징 처리 첫 번째 페이지의 아이돌을 조회")
+    void idolTest2() {
+        //given
+        String groupName = "아이브";
+
+        //when
+        List<Idol> ive = factory
+                .selectFrom(idol)
+                .where(idol.group.groupName.eq(groupName))
+                .fetch();
+
+        //then
+        assertFalse(ive.isEmpty());
+        for (Idol idol : ive) {
+            System.out.println("아이브 : " + idol);
+            assertEquals(groupName, idol.getGroup().getGroupName());
+        }
+    }
+    */
     
 
 }
