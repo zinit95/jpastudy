@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-import static com.spring.jpastudy.chap06_querydsl.entity.QAlbum.album;
+import static com.spring.jpastudy.chap06_querydsl.entity.QAlbum.*;
 import static com.spring.jpastudy.chap06_querydsl.entity.QGroup.*;
 import static com.spring.jpastudy.chap06_querydsl.entity.QIdol.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
