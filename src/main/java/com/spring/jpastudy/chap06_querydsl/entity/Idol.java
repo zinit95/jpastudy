@@ -23,7 +23,7 @@ public class Idol {
 
     private String gender; // 성별 추가
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //LAZY 땜에 그룹정보 달라 안해서 test 에서 조회를 안하는거임
     @JoinColumn(name = "group_id")
     private Group group;
 
