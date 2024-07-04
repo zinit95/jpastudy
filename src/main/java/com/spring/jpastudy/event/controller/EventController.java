@@ -25,9 +25,11 @@ public class EventController {
     @GetMapping
     public ResponseEntity<?> getList(
             @RequestParam(required = false) String sort) {
-        if(sort == null){
+
+        if (sort == null) {
             return ResponseEntity.badRequest().body("sort 파라미터가 없습니다.");
         }
+
         List<EventDetailDto> events = eventService.getEvents(sort);
         return ResponseEntity.ok().body(events);
     }
@@ -39,15 +41,20 @@ public class EventController {
         return ResponseEntity.ok().body(events);
     }
 
+    // 단일 조회 요청
     @GetMapping("/{eventId}")
-    public ResponseEntity<?> getEvent (@PathVariable Long eventId){
-        if(eventId == null || eventId < 1){
-            String erroMessage = " 이벤트 아이디가 정확하지 않아";
-            log.warn(erroMessage);
-            return  ResponseEntity.badRequest().body(erroMessage);
+    public ResponseEntity<?> getEvent(@PathVariable Long eventId) {
+
+        if (eventId == null || eventId < 1) {
+            String errorMessage = "eventId가 정확하지 않습니다.";
+            log.warn(errorMessage);
+            return ResponseEntity.badRequest().body(errorMessage);
         }
+
         EventOneDto eventDetail = eventService.getEventDetail(eventId);
+
         return ResponseEntity.ok().body(eventDetail);
     }
+
 
 }
