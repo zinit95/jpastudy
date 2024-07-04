@@ -2,6 +2,7 @@ package com.spring.jpastudy.event.controller;
 
 import com.spring.jpastudy.event.dto.request.EventSaveDto;
 import com.spring.jpastudy.event.dto.response.EventDetailDto;
+import com.spring.jpastudy.event.dto.response.EventOneDto;
 import com.spring.jpastudy.event.entity.Event;
 import com.spring.jpastudy.event.service.EventService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,10 @@ public class EventController {
     // 전체 조회 요청
     @GetMapping
     public ResponseEntity<?> getList(
-            @RequestParam(required = false, defaultValue = "date") String sort) {
+            @RequestParam(required = false) String sort) {
+        if(sort == null){
+            return ResponseEntity.badRequest().body("sort 파라미터가 없습니다.");
+        }
         List<EventDetailDto> events = eventService.getEvents(sort);
         return ResponseEntity.ok().body(events);
     }
@@ -33,6 +37,17 @@ public class EventController {
     public ResponseEntity<?> register(@RequestBody EventSaveDto dto) {
         List<EventDetailDto> events = eventService.saveEvent(dto);
         return ResponseEntity.ok().body(events);
+    }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<?> getEvent (@PathVariable Long eventId){
+        if(eventId == null || eventId < 1){
+            String erroMessage = " 이벤트 아이디가 정확하지 않아";
+            log.warn(erroMessage);
+            return  ResponseEntity.badRequest().body(erroMessage);
+        }
+        EventOneDto eventDetail = eventService.getEventDetail(eventId);
+        return ResponseEntity.ok().body(eventDetail);
     }
 
 }
